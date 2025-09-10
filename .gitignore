@@ -1,0 +1,32 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment files
+.env
+*.env
+
+# Conda environment folders
+.conda/
+env/
+venv/
+.venv/
+
+# Data and model artifacts
+src/data/*
+src/models/*
+*.pkl
+*.csv
+
+# VS Code settings
+.vscode/
+
+# OS generated files
+.DS_Store
+
+# Logs
+*.log
+
+# Ignore environment.yml lock files
+environment.lock.yml

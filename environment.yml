@@ -1,0 +1,17 @@
+name: aied
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - spacy
+  - pandas
+  - numpy
+  - requests
+  - pip
+  - pip:
+      - transformers
+      - claucy
+      - fastcoref
+      - sentence-transformers
+      - sparqlwrapper
