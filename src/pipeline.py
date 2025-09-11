@@ -16,21 +16,28 @@ def extract_triples(text: str):
     coref_resolved_text = coreference_resolver.process(text)
     logger.info(f"Coreference Resolved Text: {coref_resolved_text}")
 
-    tagged_clauses = ner_processor.process(coref_resolved_text)
-    logger.info(f"Extracted Clauses: {tagged_clauses}")
+    tagged_spos = ner_processor.process(coref_resolved_text)
+    logger.info(f"Extracted SPOS: {tagged_spos}")
 
     triples = []
 
     def strip_tags(texts):
         return [re.sub(r"</?[^>]+>", "", text) for text in texts]
 
-    for clause in tagged_clauses:
-        logger.info(f"Processing Clause: {clause}")
+    for spo in tagged_spos:
+        logger.info(f"Processing SPO: {spo}")
 
-        subj, pred, obj = strip_tags(clause)
+        subj, pred, obj = strip_tags(spo)
 
-        subj_qid, subj_uri = qid_retriever.get_wikidata_qid(subj)
-        obj_qid, obj_uri = qid_retriever.get_wikidata_qid(obj)
+        subj_qid = qid_retriever.get_wikidata_qid(subj)
+        obj_qid = qid_retriever.get_wikidata_qid(obj)
+        subj_uri = f"http://www.wikidata.org/entity/{subj_qid}" if subj_qid else None
+        obj_uri = f"http://www.wikidata.org/entity/{obj_qid}" if obj_qid else None
+
+        if subj_qid is None or obj_qid is None:
+            logger.info("Skipping relationship extraction due to missing QID.")
+            triples.append((subj_uri if subj_uri else subj, pred, obj_uri if obj_uri else obj))
+            continue
 
         best_bert_property, constraints_matching_candidates = (
             relationship_extractor.extract_relationship(
