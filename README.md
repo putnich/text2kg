@@ -6,8 +6,8 @@ This project extracts structured knowledge triples from unstructured text using 
 
 - **Input:** Raw text (e.g., `"Marie Curie and Albert Einstein were both awarded Nobel Prizes."`)
 - **Coreference Resolution:** Replaces pronouns and references with their corresponding named entities using [fastcoref](https://github.com/allenai/fastcoref) and spaCy libraries.
-- **Named Entity Recognition & Clause Extraction:** Identifies entities and extracts SPO clauses using HuggingFace Transformers, spaCy, and [claucy](https://github.com/quodlibet/claucy) libraries.
-- **Wikidata Entity Linking:** Maps extracted entity labels to Wikidata QIDs via the Wikidata API.
+- **Named Entity Recognition & Clause Extraction:** Identifies entities and extracts SPO clauses using HuggingFace Transformers and spaCy dependency parsing.
+- **Wikidata Entity Linking:** Maps extracted entity labels to Wikidata QIDs via the Wikidata API by using exact label/alias matching and embedding similarity with thresholding.
 - **Relationship Extraction:** Finds the best Wikidata property for each subject-object pair using BERT-based semantic similarity and Wikidata property constraint matching.
 - **Output:** List of triples: `<subject_uri, property, object_uri>`
 
