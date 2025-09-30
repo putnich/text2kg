@@ -36,13 +36,17 @@ def extract_relationship(subj_text, subject_qid, obj_text, object_qid, pred_text
         subject_qid, object_qid, constraints, MAX_DEPTH
     )
 
-    best_bert_property = max(
+    candidates = (
         bert_ranked_by_label
         + bert_ranked_by_description
         + bert_ranked_by_statements
-        + bert_ranked_by_aliases,
-        key=lambda x: x[1],
-    )[0]
+        + bert_ranked_by_aliases
+    )
+    if not candidates:
+        logger.warning("No BERT-ranked properties available; skipping.")
+        return None, constraint_matched_properties
+
+    best_bert_property = max(candidates, key=lambda x: x[1])[0]
 
     logger.info(f"Final selected property (BERT): {best_bert_property}")
     logger.info(f"Domain/range matching properties: {constraint_matched_properties}")
