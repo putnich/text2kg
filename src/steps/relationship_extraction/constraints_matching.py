@@ -37,13 +37,13 @@ def get_classes(qid):
     return list(classes)
 
 
-def get_superclasses(qids, depth):
-    logger.info(f"Fetching superclasses for QIDs: {qids} (depth={depth})")
+def get_superclasses(qid, depth):
+    logger.info(f"Fetching superclasses for QID: {qid} (depth={depth})")
 
     superclasses = set()
 
     # Direct expansion
-    superclasses.update(get_deeper_superclasses(qids))
+    superclasses.update(get_deeper_superclasses([qid]))
     current_superclasses = set(superclasses)
     # Deeper expansions
     i = 1
@@ -56,7 +56,7 @@ def get_superclasses(qids, depth):
         i += 1
 
     logger.info(
-        f"QIDs {qids} - Superclasses ({depth} levels): {len(superclasses)} found"
+        f"QID {qid} - Superclasses ({depth} levels): {len(superclasses)} found"
     )
     return list(superclasses)
 
