@@ -2,11 +2,11 @@ import spacy
 from fastcoref import spacy_component
 from src.config.config import logger, SPACY_MODEL
 
+# Load spacy with fastcoref
+nlp = spacy.load(SPACY_MODEL)
+nlp.add_pipe("fastcoref")
 
 def process(text: str):
-    # Load spacy with fastcoref
-    nlp = spacy.load(SPACY_MODEL)
-    nlp.add_pipe("fastcoref")
 
     doc = nlp(text)
 
